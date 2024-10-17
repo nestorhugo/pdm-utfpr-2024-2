@@ -14,7 +14,7 @@ export default function Login() {
       <Image
         style={styles.image}
         source={{
-          uri: "https://m.media-amazon.com/images/I/715vwvP5ZEL._h1_.png",
+          uri: "https://media.tenor.com/-Y2YOay3_JoAAAAM/its-friday-dancing.gif",
         }}
       />
       <Text>Faça Login</Text>
