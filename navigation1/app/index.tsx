@@ -1,13 +1,24 @@
-import { Link, Stack } from "expo-router";
-import { StyleSheet, Text, View } from "react-native";
+import { router, Stack } from "expo-router";
+import { Button, StyleSheet, Text, View } from "react-native";
 
 export default function Page() {
+  function handleButtonClick() {
+    router.push({
+      pathname: "/pag",
+      params: { id: Math.floor(Math.random() * 1000) },
+    });
+  }
+
   return (
     <View style={styles.container}>
+      <Stack.Screen
+        options={{
+          title: "Nestor",
+        }}
+      />
       <View style={styles.main}>
         <Text style={styles.title}>Abracadabra</Text>
-        <Text style={styles.subtitle}>Pata de cabra...</Text>
-        <Link href="/pag">AHAHHAHAHA</Link>
+        <Button title="Descubra.." onPress={handleButtonClick} />
       </View>
     </View>
   );
