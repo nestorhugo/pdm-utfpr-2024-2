@@ -14,7 +14,7 @@ type CardProps = {
 export default function Card({ title, children }: CardProps) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{title}</Text>
+      {title && <Text style={styles.title}>{title}</Text>}
       {children}
     </View>
   );
