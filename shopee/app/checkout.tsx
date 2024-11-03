@@ -1,139 +1,86 @@
-import { View, Text, Alert, StyleSheet, Image } from "react-native";
+import { Text, Alert, StyleSheet } from "react-native";
 import React from "react";
-import FullScreen from "@/components/containers/FullScreen";
-import HeaderHidden from "@/components/headers/HeaderHidden";
 import HeaderWithTitle from "@/components/headers/HeaderWithTitle";
 import Card from "@/components/containers/Card";
-import PriceTag from "@/components/checkout/PriceTag";
-import CheckoutButton from "@/components/checkout/CheckoutButton";
-import {
-  DEFAULT_GAP,
-  DEFAULT_PADDING,
-  SHOPEE_ORANGE,
-} from "@/constants/globalStyles";
+import { SHOPEE_ORANGE } from "@/constants/globalStyles";
 import Entypo from "@expo/vector-icons/Entypo";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Checkbox from "expo-checkbox";
-import NumberPicker from "@/components/NumberPicker";
 import productsMock from "@/components/checkout/productsMock";
+import FlexRow from "@/components/FlexRow";
+import Divider from "@/components/Divider";
+import Chip from "@/components/Chip";
+import ProductList from "@/components/checkout/ProductList";
+import Scrollable from "@/components/containers/Scrollable";
 
 export default function checkout() {
   const handleCheckout = () => {
     Alert.alert("Sucesso!", "O cartão passou! Que beleza hein!");
   };
 
-  const product = productsMock[0];
+  const checkout = productsMock;
 
   const [checked, onChangeChecked] = React.useState(true);
 
   return (
-    <FullScreen center>
+    <Scrollable>
       <HeaderWithTitle title="Nestor" />
+      {checkout.map((shop) => (
+        <Card key={shop.id}>
+          <FlexRow between>
+            <FlexRow>
+              <Checkbox
+                value={checked}
+                onValueChange={onChangeChecked}
+                color={checked ? SHOPEE_ORANGE : undefined}
+              />
+              {shop.isIndicated && <Chip text="Indicado" />}
+              <Text style={styles.shopName}>{shop.shop}</Text>
+              {shop.isOnLivestream && (
+                <Chip text="LIVE" icon="play" iconSize={12} />
+              )}
+              <Entypo name="chevron-right" size={24} color="lightgray" />
+            </FlexRow>
 
-      <Card>
-        <View style={styles.header}>
-          <View style={styles.row}>
-            <Checkbox
-              value={checked}
-              onValueChange={onChangeChecked}
-              color={checked ? SHOPEE_ORANGE : undefined}
+            <Text style={{ color: "gray" }}>Editar</Text>
+          </FlexRow>
+
+          {shop.products.map((product) => (
+            <ProductList
+              key={product.id}
+              name={product.name}
+              price={product.price}
+              oldPrice={product.oldPrice ? product.oldPrice : undefined}
+              imageUrl={product.productImage}
             />
-            <View style={styles.indicado}>
-              <Text style={styles.text_white}>Indicado</Text>
-            </View>
-            <Text style={styles.h2}>Choice Oficial</Text>
-            <View style={[styles.row, styles.live]}>
-              <Entypo name="video-camera" size={12} color="white" />
-              <Text style={styles.text_white}>LIVE</Text>
-            </View>
-            <Entypo name="chevron-right" size={24} color="lightgray" />
-          </View>
+          ))}
 
-          <Text style={{ color: "gray" }}>Editar</Text>
-        </View>
+          {shop.obs && <Divider />}
+          {shop.obs &&
+            shop.obs.map((obs) => (
+              <FlexRow between>
+                <FlexRow>
+                  <FontAwesome6
+                    name={obs.icon}
+                    size={20}
+                    color={obs.iconColor ? obs.iconColor : SHOPEE_ORANGE}
+                  />
+                  <Text>{obs.label}</Text>
+                </FlexRow>
 
-        <View style={styles.row}>
-          <Checkbox
-            value={checked}
-            onValueChange={onChangeChecked}
-            color={checked ? SHOPEE_ORANGE : undefined}
-          />
-          <View>
-            <Image
-              style={styles.tinyLogo}
-              source={{
-                uri: "https://reactnative.dev/img/tiny_logo.png",
-              }}
-            />
-          </View>
-          <View style={{ width: 240 }}>
-            <Text numberOfLines={2}>
-              Adaptador SATA Para USBaaaaaaaaaaaaaaaaaaaaaaaa
-            </Text>
-            <View style={styles.header}>
-              <PriceTag price={266} oldPrice={359} />
-              <NumberPicker />
-            </View>
-          </View>
-        </View>
-        <View style={styles.divider} />
-        <View style={styles.header}>
-          <View style={styles.row}>
-            <Entypo name="ticket" size={24} color={SHOPEE_ORANGE} />
-            <Text>Ver todos os cupons da loja</Text>
-          </View>
-          <Entypo name="chevron-right" size={24} color="lightgray" />
-        </View>
-        <View style={styles.header}>
-          <View style={styles.row}>
-            <FontAwesome6 name="truck" size={20} color="#439a91" />
-            <Text>Frete gratis para pedidos acima de 19,00</Text>
-          </View>
-          <Entypo name="chevron-right" size={24} color="lightgray" />
-        </View>
-      </Card>
-    </FullScreen>
+                <Entypo name="chevron-right" size={24} color="lightgray" />
+              </FlexRow>
+            ))}
+        </Card>
+      ))}
+    </Scrollable>
   );
 }
 
 const styles = StyleSheet.create({
-  header: {
-    justifyContent: "space-between",
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  row: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: DEFAULT_GAP,
-  },
-  h2: {
+  shopName: {
     color: "black",
     fontSize: 16,
     fontWeight: "bold",
-  },
-  indicado: {
-    padding: 4,
-    color: "white",
-    backgroundColor: SHOPEE_ORANGE,
-    borderRadius: 4,
-  },
-  live: {
-    backgroundColor: SHOPEE_ORANGE,
-    padding: 4,
-    borderRadius: 4,
-  },
-  text_white: {
-    fontSize: 12,
-    color: "white",
-  },
-  tinyLogo: {
-    width: 80,
-    height: 80,
-  },
-  divider: {
-    borderWidth: 1,
-    borderColor: "#f6f6f6",
-    marginVertical: 8,
   },
 });
