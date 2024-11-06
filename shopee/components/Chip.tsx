@@ -14,9 +14,9 @@ type ChipProps = {
 
 export default function Chip({
   icon,
-  iconSize,
+  iconSize = 20,
   bgColor,
-  color,
+  color = "white",
   text,
 }: ChipProps) {
   return (
@@ -29,13 +29,7 @@ export default function Chip({
       ]}
     >
       <FlexRow>
-        {icon && (
-          <FontAwesome6
-            name={icon}
-            size={iconSize ? iconSize : 20}
-            color={color ? color : "white"}
-          />
-        )}
+        {icon && <FontAwesome6 name={icon} size={iconSize} color={color} />}
         <Text style={color ? { color: color } : { color: "white" }}>
           {text}
         </Text>
