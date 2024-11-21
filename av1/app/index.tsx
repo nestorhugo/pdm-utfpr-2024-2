@@ -18,13 +18,13 @@ export default function index() {
   const [password, onChangePassword] = React.useState("");
 
   function handlePress(username: string, password: string) {
-    if (username !== "fulano" || password !== "123") {
+    if (username === "fulano" && password === "123") {
+      router.push({ pathname: "/haha" });
+    } else {
       Alert.alert(
         "Falha na autenticação",
         "Credenciais inválidas, tente novamente"
       );
-    } else {
-      router.push({ pathname: "/haha" });
     }
   }
 
