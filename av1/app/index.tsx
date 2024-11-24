@@ -19,7 +19,7 @@ export default function index() {
 
   function handlePress(username: string, password: string) {
     if (username === "fulano" && password === "123") {
-      router.push({ pathname: "/haha" });
+      router.push({ pathname: "/PassengerList" });
     } else {
       Alert.alert(
         "Falha na autenticação",

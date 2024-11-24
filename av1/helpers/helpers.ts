@@ -6,7 +6,7 @@ export type Passenger = {
   destination: string;
 };
 
-type CountrySection = {
+export type CountrySection = {
   country: string;
   data: Passenger[];
 };
