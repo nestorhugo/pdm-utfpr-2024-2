@@ -3,6 +3,7 @@ import React from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { PRIMARY_COLOR } from "@/constants/theme";
 import { useActionSheet } from "@expo/react-native-action-sheet";
+import { router } from "expo-router";
 
 export default function HeaderMenu() {
   const { showActionSheetWithOptions } = useActionSheet();
@@ -20,19 +21,15 @@ export default function HeaderMenu() {
       },
       (selectedIndex?: number) => {
         switch (selectedIndex) {
-          case 1:
-            // Save
-            //TODO -> lidar com os redirects do ActionSheet
-            console.log("Sobre");
+          case 0:
+            router.push("/About");
             break;
 
           case destructiveButtonIndex:
-            // Delete
-            console.log("Deslogar");
+            router.dismissAll();
             break;
 
           case cancelButtonIndex:
-          // Canceled
         }
       }
     );
