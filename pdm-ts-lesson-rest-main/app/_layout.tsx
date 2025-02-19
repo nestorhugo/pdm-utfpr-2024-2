@@ -3,8 +3,19 @@ import React from "react";
 import TokenContextProvider from "../src/contexts/userContext";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StyleSheet } from "react-native";
+import { ThemeProvider, useTheme } from "../src/contexts/themeContext";
 
-export default function _layout() {
+// Crie um componente separado para usar o hook useTheme
+function AppContent() {
+  const { theme } = useTheme();
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: theme.colors.background,
+    },
+  });
+
   return (
     <TokenContextProvider>
       <SafeAreaView style={styles.container}>
@@ -14,8 +25,11 @@ export default function _layout() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
+// Componente principal que fornece o contexto
+export default function _layout() {
+  return (
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
+  );
+}
