@@ -49,8 +49,11 @@ export default function Home() {
     },
     item: {
       flexDirection: "column",
-      marginTop: 8,
-      marginBottom: 16,
+      marginVertical: 8,
+      marginHorizontal: 16,
+      padding: 16,
+      backgroundColor: theme.colors.card,
+      borderRadius: 12,
     },
     item_text: {
       color: theme.colors.text,
@@ -64,23 +67,17 @@ export default function Home() {
       <Link style={styles.item_text} href="/userspace/create_car">
         Create a new Car
       </Link>
-      <Link style={styles.item_text} href="/userspace/create_car">
-        Create a new ORÇAMENTOOOOOO
-      </Link>
 
       <ThemeSwitcher />
 
       <FlatList
         data={cars}
         renderItem={({ item }) => {
-          // console.log(item);
-
           return (
             <View style={styles.item}>
-              <Text style={styles.item_text}>{item.id}</Text>
-              <Text style={styles.item_text}>{item.brand}</Text>
-              <Text style={styles.item_text}>{item.model}</Text>
-              <Text style={styles.item_text}>{JSON.stringify(item)}</Text>
+              <Text style={styles.item_text}>Marca: {item.brand}</Text>
+              <Text style={styles.item_text}>Modelo: {item.model}</Text>
+              <Text style={styles.item_text}>HP: {item.hp}</Text>
             </View>
           );
         }}

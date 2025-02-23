@@ -5,6 +5,7 @@ export const lightTheme = {
     text: "#000000",
     border: "#E5E5EA",
     error: "#FF3B30",
+    card: "#dbdbdb",
   },
   spacing: {
     small: 8,
@@ -30,6 +31,7 @@ export const darkTheme = {
     text: "#eaeaea",
     border: "#38383A",
     error: "#FF453A",
+    card: "#1b1b1d",
   },
   spacing: {
     small: 8,
