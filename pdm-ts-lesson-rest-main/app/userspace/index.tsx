@@ -1,11 +1,19 @@
 import { Link } from "expo-router";
 import { useEffect, useState } from "react";
-import { Alert, FlatList, StyleSheet, Text, View } from "react-native";
+import {
+  Alert,
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { useTokenContext } from "../../src/contexts/userContext";
 import api from "../../src/services/api";
 import { Car } from "../../src/types/Car";
 import ThemeSwitcher from "../theme_switcher";
 import { useTheme } from "../../src/contexts/themeContext";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 export default function Home() {
   const { token } = useTokenContext();
@@ -13,7 +21,10 @@ export default function Home() {
   const { theme } = useTheme();
 
   useEffect(() => {
-    // exemplo com then-catch (na outra página usaremos async-await)
+    fetchCars();
+  }, []);
+
+  function fetchCars() {
     api
       .get("/api/collections/cars/records", {
         headers: {
@@ -26,7 +37,20 @@ export default function Home() {
       .catch((error) => {
         Alert.alert(error.message);
       });
-  }, []);
+  }
+
+  function deleteCar(id: string) {
+    api
+      .delete(`/api/collections/cars/records/${id}`, {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then(() => {
+        Alert.alert("Deletado com sucesso!");
+        fetchCars();
+      });
+  }
 
   const styles = StyleSheet.create({
     container: {
@@ -48,7 +72,6 @@ export default function Home() {
       color: theme.colors.text,
     },
     item: {
-      flexDirection: "column",
       marginVertical: 8,
       marginHorizontal: 16,
       padding: 16,
@@ -57,6 +80,14 @@ export default function Home() {
     },
     item_text: {
       color: theme.colors.text,
+    },
+    delete_btn: {
+      color: theme.colors.error,
+    },
+    flex: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
     },
   });
 
@@ -74,10 +105,21 @@ export default function Home() {
         data={cars}
         renderItem={({ item }) => {
           return (
-            <View style={styles.item}>
-              <Text style={styles.item_text}>Marca: {item.brand}</Text>
-              <Text style={styles.item_text}>Modelo: {item.model}</Text>
-              <Text style={styles.item_text}>HP: {item.hp}</Text>
+            <View style={[styles.item, styles.flex]}>
+              <View>
+                <Text style={styles.item_text}>Marca: {item.brand}</Text>
+                <Text style={styles.item_text}>Modelo: {item.model}</Text>
+                <Text style={styles.item_text}>HP: {item.hp}</Text>
+              </View>
+              <View>
+                <TouchableOpacity onPress={() => deleteCar(item.id)}>
+                  <AntDesign
+                    style={styles.delete_btn}
+                    name="delete"
+                    size={24}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
           );
         }}
