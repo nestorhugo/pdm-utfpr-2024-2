@@ -1,19 +1,12 @@
 import { Link } from "expo-router";
 import { useEffect, useState } from "react";
-import {
-  Alert,
-  FlatList,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Alert, FlatList, StyleSheet, Text, View } from "react-native";
 import { useTokenContext } from "../../src/contexts/userContext";
 import api from "../../src/services/api";
 import { Car } from "../../src/types/Car";
 import ThemeSwitcher from "../theme_switcher";
 import { useTheme } from "../../src/contexts/themeContext";
-import AntDesign from "@expo/vector-icons/AntDesign";
+import CarCard from "./carCard";
 
 export default function Home() {
   const { token } = useTokenContext();
@@ -81,14 +74,6 @@ export default function Home() {
     item_text: {
       color: theme.colors.text,
     },
-    delete_btn: {
-      color: theme.colors.error,
-    },
-    flex: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
-    },
   });
 
   return (
@@ -103,26 +88,17 @@ export default function Home() {
 
       <FlatList
         data={cars}
-        renderItem={({ item }) => {
-          return (
-            <View style={[styles.item, styles.flex]}>
-              <View>
-                <Text style={styles.item_text}>Marca: {item.brand}</Text>
-                <Text style={styles.item_text}>Modelo: {item.model}</Text>
-                <Text style={styles.item_text}>HP: {item.hp}</Text>
-              </View>
-              <View>
-                <TouchableOpacity onPress={() => deleteCar(item.id)}>
-                  <AntDesign
-                    style={styles.delete_btn}
-                    name="delete"
-                    size={24}
-                  />
-                </TouchableOpacity>
-              </View>
-            </View>
-          );
-        }}
+        renderItem={({ item }) => (
+          <CarCard
+            id={item.id}
+            brand={item.brand}
+            model={item.model}
+            hp={item.hp}
+            onDelete={(id: string) => {
+              deleteCar(id);
+            }}
+          />
+        )}
         keyExtractor={(car) => car.id}
         style={styles.flatlist}
       />

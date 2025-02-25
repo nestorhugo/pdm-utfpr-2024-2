@@ -5,7 +5,7 @@ interface TokenContextProps {
   setToken: (token: string) => void;
 }
 
-const TokenContext = createContext<TokenContextProps>(undefined);
+export const TokenContext = createContext<TokenContextProps>(undefined);
 
 export default function TokenContextProvider({ children }: PropsWithChildren) {
   const [token, setToken] = useState<string>();
